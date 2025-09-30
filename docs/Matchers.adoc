@@ -1,0 +1,41 @@
+:imagesdir: assets
+= Matchers
+
+Matchers are used to match arguments passed to the mocked methods.
+
+[,go]
+----
+type Matcher interface {
+	Match(actual any) (success bool, err error)
+}
+----
+
+Which is a part of
+https://github.com/onsi/gomega/blob/acd1f554137d241699a54ff0ef2cdbf2099359a7/types/types.go#L39-L43[Gomega's matcher interface],
+so any Gomega matcher can be used as a matcher in Birb.
+
+[,go]
+----
+type GomegaMatcher interface {
+	Match(actual any) (success bool, err error)
+	FailureMessage(actual any) (message string)
+	NegatedFailureMessage(actual any) (message string)
+}
+----
+
+Matchers can be used in the `MOCK_` functions to match the arguments passed to the mocked methods.
+
+For example, you can use the `ContainSubstring` matcher to match the argument passed to the `PersonalGreet` method:
+
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+WhenCalling(mockGreeter.MOCK_PersonalGreet(ContainSubstring("John"))).
+  ThenReturn("Hello, John", nil)
+
+mockGreeter.PersonalGreet("Hello, John") // returns "Hello, John", nil
+mockGreeter.PersonalGreet("Hello, Johnny") // returns "Hello, John", nil
+mockGreeter.PersonalGreet("Hello, Tom") // returns "", nil
+----
+
+Specific values are automatically converted to use the `Equal` matcher, so you can use them directly in the `MOCK_` functions.

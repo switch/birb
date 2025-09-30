@@ -1,0 +1,29 @@
+:imagesdir: assets
+= Copy Into
+
+Copy Into is used to copy a value into the argument. This is used when an empty object is passed to a function to
+initialize the object
+
+[,go]
+----
+type SomeGetter interface {
+  Get(ctx context.Context, obj Object) error
+}
+
+type getter struct {
+  awesome string
+}
+
+valToCopy := &getter{
+  awesome: "sauce"
+}
+
+mockGetter := NewMockGetter(t)
+WhenCalling(mockGetter.MOCK_Get(Aything(), ShallowCopyInto(valToCopy))).ThenReturn(nil)
+
+obj := &getter{}
+
+mockGetter.Get(ctx, obj)
+
+Expect(obj.awesome).To(Equal("sauce"))
+----

@@ -1,0 +1,95 @@
+:imagesdir: assets
+= Mocking
+
+The Greeter Interface:
+[,go]
+----
+package e2e
+
+type Greeter interface {
+	Greet() string
+	PersonalGreet(name string) (string, error)
+	AllTheGreets(who []string) []string
+}
+----
+
+== Returns
+
+=== Return defaults (zero values)
+
+This will return the default values for the method's return types.
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+mockGreeter.Greet() // returns ""
+mockGreeter.PersonalGreet("John") // returns "", nil
+mockGreeter.AllTheGreets([]string{"John", "Tom"}) // returns []string{}
+----
+
+=== Return specific values
+This will return the values in order they were called, so you can chain them together.
+On the third and all subsequent calls it will return the last value "Hello, someone".
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+WhenCalling(mockGreeter.MOCK_Greet()).
+  ThenReturn("Hello, John").
+  ThenReturn("Hello, Tom").
+  ThenReturn("Hello, someone")
+
+mockGreeter.Greet() // returns "Hello, John"
+mockGreeter.Greet() // returns "Hello, Tom"
+mockGreeter.Greet() // returns "Hello, someone"
+mockGreeter.Greet() // returns "Hello, someone"
+mockGreeter.Greet() // returns "Hello, someone"
+----
+
+The `Anything()` method can be used to match any argument passed to the method.
+
+For multiple return values, the `ThenReturn` method can take multiple arguments.
+
+This time the last call will return an error.
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+WhenCalling(mockGreeter.MOCK_PersonalGreet(Anything())).
+  ThenReturn("Hello, John", nil).
+  ThenReturn("Hello, Tom", nil).
+  ThenReturn("", errors.New("not found"))
+
+mockGreeter.PersonalGreet("huh") // returns "Hello, John", nil
+mockGreeter.PersonalGreet("what?!") // returns "Hello, Tom", nil
+mockGreeter.PersonalGreet("Alice") // returns "", errors.New("not found")
+mockGreeter.PersonalGreet("Bob") // returns "", errors.New("not found")
+----
+
+The `MOCK_` functions take a specific value as an argument, so you can use matchers to match the argument.
+
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+// passing "awesome" is the same as passing Equal("awesome")
+WhenCalling(mockGreeter.MOCK_PersonalGreet("awesome")).
+  ThenReturn("Hello, you", nil)
+
+mockGreeter.PersonalGreet("awesome") // returns "Hello, you", nil
+mockGreeter.PersonalGreet("awesome") // returns "Hello, you", nil
+mockGreeter.PersonalGreet("not awesome") // returns "", nil
+----
+
+== Return an Answer
+This allows you to return a value based on the arguments passed to the method.
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+WhenCalling(mockGreeter.MOCK_PersonalGreet(Anything())).
+  ThenAnswer(func(args []any) []any {
+     return []any{"Hello, " + args[0].(string), nil}
+  })
+
+mockGreeter.PersonalGreet("John") // returns "Hello, John", nil
+mockGreeter.PersonalGreet("Tom") // returns "Hello, Tom", nil
+mockGreeter.PersonalGreet("Alice") // returns "Hello, Alice", nil
+mockGreeter.PersonalGreet("Bob") // returns "Hello, Bob", nil
+----
+

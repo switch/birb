@@ -1,0 +1,27 @@
+template: file://templates/mockery.go.tmpl
+packages:
+  github.com/switch/birb/internal/mocks:
+    config:
+      dir: internal/mocks
+      filename: mocks_e2e.go
+      pkgname: mocks
+    interfaces:
+      Greeter:
+      Convoluted:
+      SomeBirb:
+  github.com/switch/birb/types:
+    config:
+      all: true
+      dir: internal/mocks
+      filename: mocks_types.go
+      pkgname: mocks
+  k8s.io/client-go/tools/record:
+    config:
+      template-data:
+        imports:
+          record: k8s.io/client-go/tools/record
+      dir: internal/mocks
+      filename: mocks_event_recorder.go
+      pkgname: mocks
+    interfaces:
+      EventRecorder:

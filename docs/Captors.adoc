@@ -1,0 +1,21 @@
+:imagesdir: assets
+= Captors
+
+Captors are used to capture arguments passed to the mocked methods.
+
+[,go]
+----
+captor := Captor()
+
+mockGreeter := NewMockGreeter(t)
+WhenCalling(mockGreeter.MOCK_PersonalGreet(captor)).
+  ThenAnswer(func(args []any) []any {
+    return []any{"Hello, " + args[0].(string), nil}
+  })
+
+mockGreeter.PersonalGreet("John") // returns "Hello, John", nil
+mockGreeter.PersonalGreet("Johnny") // returns "Hello, Johnny", nil
+mockGreeter.PersonalGreet("Tom") // returns "Hello, Tom", nil
+
+capturedArgs := captor.GetValues() // returns []any{"John", "Johnny", "Tom"}
+----

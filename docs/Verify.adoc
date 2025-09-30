@@ -1,0 +1,43 @@
+:imagesdir: assets
+= Verifying
+
+The Greeter Interface:
+[,go]
+----
+package e2e
+
+type Greeter interface {
+	Greet() string
+	PersonalGreet(name string) (string, error)
+	AllTheGreets(who []string) []string
+}
+----
+
+== Verifying the number of calls
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+mockGreeter.Greet()
+Verify(mockGreeter, Once()).CALLED_Greet() // verifies that Greet was called once
+Verify(mockGreeter, AtLeast(1)).CALLED_Greet() // verifies that Greet was called at least once
+----
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+mockGreeter.PersonalGreet("John")
+mockGreeter.PersonalGreet("John")
+Verify(mockGreeter, Never()).CALLED_Greet() // verifies that Greet was never called
+Verify(mockGreeter, AtLeast(1)).CALLED_PersonalGreet("John") // verifies that Greet was called at least once
+Verify(mockGreeter, Twice()).CALLED_PersonalGreet("John") // verifies that Greet was called exactly twice with "John" argument
+----
+
+== Verifying there was no other interaction
+This verifies that there were no other interactions with the mock. Meaning that everything that we verified was called,
+and nothing else was called.
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+mockGreeter.PersonalGreet("John")
+Verify(mockGreeter, Once()).CALLED_PersonalGreet("John") // verifies that PersonalGreet was called once with "John" argument
+VerifyNoOtherInteractions(mockGreeter) // verifies that there were no other interactions with the mock
+----
