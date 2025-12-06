@@ -46,6 +46,7 @@ func (mock *MockEventRecorder) BirbHandler() *handlers.Handler {
 
 // MOCK_AnnotatedEventf is the mock stubber for the AnnotatedEventf method of the MockEventRecorder type
 func (mock *MockEventRecorder) MOCK_AnnotatedEventf(object any, annotations any, eventtype any, reason any, messageFmt any, args ...any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["AnnotatedEventf"]
 	args1 := []reflect.Value{
@@ -63,6 +64,7 @@ func (mock *MockEventRecorder) MOCK_AnnotatedEventf(object any, annotations any,
 
 // MOCKany_AnnotatedEventf is the mock stubber for the AnnotatedEventf method of the MockEventRecorder type
 func (mock *MockEventRecorder) MOCKany_AnnotatedEventf() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["AnnotatedEventf"]
 	args1 := []reflect.Value{
@@ -75,6 +77,7 @@ func (mock *MockEventRecorder) MOCKany_AnnotatedEventf() *handlers.BirbMocker {
 
 // AnnotatedEventf provides a mock function for the type MockEventRecorder
 func (mock *MockEventRecorder) AnnotatedEventf(object runtime.Object, annotations map[string]string, eventtype string, reason string, messageFmt string, args ...interface{}) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["AnnotatedEventf"]
 	args1 := []any{
@@ -91,6 +94,7 @@ func (mock *MockEventRecorder) AnnotatedEventf(object runtime.Object, annotation
 
 // CALLED_AnnotatedEventf is the mock verifier for the AnnotatedEventf method of the MockEventRecorder type
 func (mock *MockEventRecorder) CALLED_AnnotatedEventf(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["AnnotatedEventf"]
 	args1 := []reflect.Value{}
@@ -108,6 +112,7 @@ func (mock *MockEventRecorder) CALLED_AnnotatedEventf(givenArgs ...any) {
 
 // MOCK_Event is the mock stubber for the Event method of the MockEventRecorder type
 func (mock *MockEventRecorder) MOCK_Event(object any, eventtype any, reason any, message any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Event"]
 	args := []reflect.Value{
@@ -123,6 +128,7 @@ func (mock *MockEventRecorder) MOCK_Event(object any, eventtype any, reason any,
 
 // MOCKany_Event is the mock stubber for the Event method of the MockEventRecorder type
 func (mock *MockEventRecorder) MOCKany_Event() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Event"]
 	args := []reflect.Value{
@@ -135,6 +141,7 @@ func (mock *MockEventRecorder) MOCKany_Event() *handlers.BirbMocker {
 
 // Event provides a mock function for the type MockEventRecorder
 func (mock *MockEventRecorder) Event(object runtime.Object, eventtype string, reason string, message string) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Event"]
 	args := []any{
@@ -149,6 +156,7 @@ func (mock *MockEventRecorder) Event(object runtime.Object, eventtype string, re
 
 // CALLED_Event is the mock verifier for the Event method of the MockEventRecorder type
 func (mock *MockEventRecorder) CALLED_Event(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Event"]
 	args := []reflect.Value{}
@@ -166,6 +174,7 @@ func (mock *MockEventRecorder) CALLED_Event(givenArgs ...any) {
 
 // MOCK_Eventf is the mock stubber for the Eventf method of the MockEventRecorder type
 func (mock *MockEventRecorder) MOCK_Eventf(object any, eventtype any, reason any, messageFmt any, args ...any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Eventf"]
 	args1 := []reflect.Value{
@@ -182,6 +191,7 @@ func (mock *MockEventRecorder) MOCK_Eventf(object any, eventtype any, reason any
 
 // MOCKany_Eventf is the mock stubber for the Eventf method of the MockEventRecorder type
 func (mock *MockEventRecorder) MOCKany_Eventf() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Eventf"]
 	args1 := []reflect.Value{
@@ -194,6 +204,7 @@ func (mock *MockEventRecorder) MOCKany_Eventf() *handlers.BirbMocker {
 
 // Eventf provides a mock function for the type MockEventRecorder
 func (mock *MockEventRecorder) Eventf(object runtime.Object, eventtype string, reason string, messageFmt string, args ...interface{}) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Eventf"]
 	args1 := []any{
@@ -209,6 +220,7 @@ func (mock *MockEventRecorder) Eventf(object runtime.Object, eventtype string, r
 
 // CALLED_Eventf is the mock verifier for the Eventf method of the MockEventRecorder type
 func (mock *MockEventRecorder) CALLED_Eventf(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Eventf"]
 	args1 := []reflect.Value{}

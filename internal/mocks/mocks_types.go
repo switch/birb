@@ -44,6 +44,7 @@ func (mock *MockTestingT) BirbHandler() *handlers.Handler {
 
 // MOCK_Cleanup is the mock stubber for the Cleanup method of the MockTestingT type
 func (mock *MockTestingT) MOCK_Cleanup(fn any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Cleanup"]
 	args := []reflect.Value{
@@ -56,6 +57,7 @@ func (mock *MockTestingT) MOCK_Cleanup(fn any) *handlers.BirbMocker {
 
 // MOCKany_Cleanup is the mock stubber for the Cleanup method of the MockTestingT type
 func (mock *MockTestingT) MOCKany_Cleanup() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Cleanup"]
 	args := []reflect.Value{
@@ -68,6 +70,7 @@ func (mock *MockTestingT) MOCKany_Cleanup() *handlers.BirbMocker {
 
 // Cleanup provides a mock function for the type MockTestingT
 func (mock *MockTestingT) Cleanup(fn func()) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Cleanup"]
 	args := []any{
@@ -79,6 +82,7 @@ func (mock *MockTestingT) Cleanup(fn func()) {
 
 // CALLED_Cleanup is the mock verifier for the Cleanup method of the MockTestingT type
 func (mock *MockTestingT) CALLED_Cleanup(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Cleanup"]
 	args := []reflect.Value{}
@@ -96,6 +100,7 @@ func (mock *MockTestingT) CALLED_Cleanup(givenArgs ...any) {
 
 // MOCK_Fatalf is the mock stubber for the Fatalf method of the MockTestingT type
 func (mock *MockTestingT) MOCK_Fatalf(format any, args ...any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Fatalf"]
 	args1 := []reflect.Value{
@@ -109,6 +114,7 @@ func (mock *MockTestingT) MOCK_Fatalf(format any, args ...any) *handlers.BirbMoc
 
 // MOCKany_Fatalf is the mock stubber for the Fatalf method of the MockTestingT type
 func (mock *MockTestingT) MOCKany_Fatalf() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Fatalf"]
 	args1 := []reflect.Value{
@@ -121,6 +127,7 @@ func (mock *MockTestingT) MOCKany_Fatalf() *handlers.BirbMocker {
 
 // Fatalf provides a mock function for the type MockTestingT
 func (mock *MockTestingT) Fatalf(format string, args ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Fatalf"]
 	args1 := []any{
@@ -133,6 +140,7 @@ func (mock *MockTestingT) Fatalf(format string, args ...any) {
 
 // CALLED_Fatalf is the mock verifier for the Fatalf method of the MockTestingT type
 func (mock *MockTestingT) CALLED_Fatalf(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Fatalf"]
 	args1 := []reflect.Value{}
@@ -150,6 +158,7 @@ func (mock *MockTestingT) CALLED_Fatalf(givenArgs ...any) {
 
 // MOCK_Helper is the mock stubber for the Helper method of the MockTestingT type
 func (mock *MockTestingT) MOCK_Helper() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Helper"]
 	args := []reflect.Value{}
@@ -160,6 +169,7 @@ func (mock *MockTestingT) MOCK_Helper() *handlers.BirbMocker {
 
 // Helper provides a mock function for the type MockTestingT
 func (mock *MockTestingT) Helper() {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Helper"]
 	args := []any{}
@@ -169,6 +179,7 @@ func (mock *MockTestingT) Helper() {
 
 // CALLED_Helper is the mock verifier for the Helper method of the MockTestingT type
 func (mock *MockTestingT) CALLED_Helper() {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Helper"]
 	args := []reflect.Value{}

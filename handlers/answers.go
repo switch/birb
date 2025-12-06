@@ -21,6 +21,7 @@ func (m *BirbMocker) testingT() types.TestingT {
 }
 
 func (m *BirbMocker) returnValues(method reflect.Method, args []any) []any {
+	m.testingT().Helper()
 	err := m.matcher.Invoke(args)
 	if err != nil {
 		m.testingT().Fatalf("Mock: matcher error: %v", err)
@@ -35,6 +36,7 @@ func (m *BirbMocker) returnValues(method reflect.Method, args []any) []any {
 }
 
 func (m *BirbMocker) getNextAnswer() Answer {
+	m.testingT().Helper()
 	if len(m.unanswered) == 0 {
 		return m.lastAnswer
 	}
@@ -45,6 +47,7 @@ func (m *BirbMocker) getNextAnswer() Answer {
 }
 
 func (m *BirbMocker) matches(method reflect.Method, args []any) bool {
+	m.testingT().Helper()
 	ok, err := m.matcher.Match(method, args)
 	if err != nil {
 		m.testingT().Fatalf("Mock: matcher error: %v", err)
@@ -54,6 +57,7 @@ func (m *BirbMocker) matches(method reflect.Method, args []any) bool {
 }
 
 func (m *BirbMocker) ThenReturn(values ...any) *BirbMocker {
+	m.testingT().Helper()
 	m.ThenAnswer(func(args []any) []any {
 		return values
 	})
@@ -61,11 +65,13 @@ func (m *BirbMocker) ThenReturn(values ...any) *BirbMocker {
 }
 
 func (m *BirbMocker) ThenAnswer(answer Answer) *BirbMocker {
+	m.testingT().Helper()
 	m.unanswered = append(m.unanswered, answer)
 	return m
 }
 
 func newBirbMocker(m *MethodHandler, args []matchers.Matcher) *BirbMocker {
+	m.testingT().Helper()
 	return &BirbMocker{
 		methodHandler: m,
 		matcher:       matchers.CreateCallMatcher(args),

@@ -3,9 +3,10 @@ package handlers
 import (
 	"errors"
 	"fmt"
-	"github.com/switch/birb/types"
 	"reflect"
 	"sync"
+
+	"github.com/switch/birb/types"
 )
 
 type Verifier struct {
@@ -15,10 +16,12 @@ type Verifier struct {
 }
 
 func (f *Verifier) getMethodHandler(method string) *MethodHandler {
+	f.testingT().Helper()
 	return f.handler.methodHandlers.GetMethodHandler(method)
 }
 
 func (f *Verifier) getMethodHandlers() map[string]*MethodHandler {
+	f.testingT().Helper()
 	return f.handler.methodHandlers.GetMethodHandlers()
 }
 
@@ -66,6 +69,7 @@ func (f *Verifier) VerifyNeverCalled() {
 func (f *Verifier) PrepCallVerifier(verifier *CallVerifier) {
 	f.mutex.Lock()
 	defer f.mutex.Unlock()
+	f.testingT().Helper()
 
 	if f.wip != nil {
 		f.testingT().Fatalf("Verifier: call verifier already set")

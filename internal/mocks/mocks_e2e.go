@@ -45,6 +45,7 @@ func (mock *MockGreeter) BirbHandler() *handlers.Handler {
 
 // MOCK_AllTheGreets is the mock stubber for the AllTheGreets method of the MockGreeter type
 func (mock *MockGreeter) MOCK_AllTheGreets(who ...any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["AllTheGreets"]
 	args := []reflect.Value{
@@ -57,6 +58,7 @@ func (mock *MockGreeter) MOCK_AllTheGreets(who ...any) *handlers.BirbMocker {
 
 // AllTheGreets provides a mock function for the type MockGreeter
 func (mock *MockGreeter) AllTheGreets(who ...string) ([]string, error) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["AllTheGreets"]
 	args := []any{
@@ -79,6 +81,7 @@ func (mock *MockGreeter) AllTheGreets(who ...string) ([]string, error) {
 
 // CALLED_AllTheGreets is the mock verifier for the AllTheGreets method of the MockGreeter type
 func (mock *MockGreeter) CALLED_AllTheGreets(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["AllTheGreets"]
 	args := []reflect.Value{}
@@ -96,6 +99,7 @@ func (mock *MockGreeter) CALLED_AllTheGreets(givenArgs ...any) {
 
 // MOCK_Greet is the mock stubber for the Greet method of the MockGreeter type
 func (mock *MockGreeter) MOCK_Greet() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Greet"]
 	args := []reflect.Value{}
@@ -106,6 +110,7 @@ func (mock *MockGreeter) MOCK_Greet() *handlers.BirbMocker {
 
 // Greet provides a mock function for the type MockGreeter
 func (mock *MockGreeter) Greet() string {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Greet"]
 	args := []any{}
@@ -125,6 +130,7 @@ func (mock *MockGreeter) Greet() string {
 
 // CALLED_Greet is the mock verifier for the Greet method of the MockGreeter type
 func (mock *MockGreeter) CALLED_Greet() {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Greet"]
 	args := []reflect.Value{}
@@ -139,6 +145,7 @@ func (mock *MockGreeter) CALLED_Greet() {
 
 // MOCK_GreetWithContext is the mock stubber for the GreetWithContext method of the MockGreeter type
 func (mock *MockGreeter) MOCK_GreetWithContext(ctx any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["GreetWithContext"]
 	args := []reflect.Value{
@@ -151,6 +158,7 @@ func (mock *MockGreeter) MOCK_GreetWithContext(ctx any) *handlers.BirbMocker {
 
 // MOCKany_GreetWithContext is the mock stubber for the GreetWithContext method of the MockGreeter type
 func (mock *MockGreeter) MOCKany_GreetWithContext() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["GreetWithContext"]
 	args := []reflect.Value{
@@ -163,6 +171,7 @@ func (mock *MockGreeter) MOCKany_GreetWithContext() *handlers.BirbMocker {
 
 // GreetWithContext provides a mock function for the type MockGreeter
 func (mock *MockGreeter) GreetWithContext(ctx context.Context) string {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["GreetWithContext"]
 	args := []any{
@@ -184,6 +193,7 @@ func (mock *MockGreeter) GreetWithContext(ctx context.Context) string {
 
 // CALLED_GreetWithContext is the mock verifier for the GreetWithContext method of the MockGreeter type
 func (mock *MockGreeter) CALLED_GreetWithContext(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["GreetWithContext"]
 	args := []reflect.Value{}
@@ -201,6 +211,7 @@ func (mock *MockGreeter) CALLED_GreetWithContext(givenArgs ...any) {
 
 // MOCK_PersonalGreet is the mock stubber for the PersonalGreet method of the MockGreeter type
 func (mock *MockGreeter) MOCK_PersonalGreet(name any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["PersonalGreet"]
 	args := []reflect.Value{
@@ -213,6 +224,7 @@ func (mock *MockGreeter) MOCK_PersonalGreet(name any) *handlers.BirbMocker {
 
 // MOCKany_PersonalGreet is the mock stubber for the PersonalGreet method of the MockGreeter type
 func (mock *MockGreeter) MOCKany_PersonalGreet() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["PersonalGreet"]
 	args := []reflect.Value{
@@ -225,6 +237,7 @@ func (mock *MockGreeter) MOCKany_PersonalGreet() *handlers.BirbMocker {
 
 // PersonalGreet provides a mock function for the type MockGreeter
 func (mock *MockGreeter) PersonalGreet(name string) (string, error) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["PersonalGreet"]
 	args := []any{
@@ -247,6 +260,7 @@ func (mock *MockGreeter) PersonalGreet(name string) (string, error) {
 
 // CALLED_PersonalGreet is the mock verifier for the PersonalGreet method of the MockGreeter type
 func (mock *MockGreeter) CALLED_PersonalGreet(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["PersonalGreet"]
 	args := []reflect.Value{}
@@ -291,6 +305,7 @@ func (mock *MockConvoluted) BirbHandler() *handlers.Handler {
 
 // MOCK_Convolute is the mock stubber for the Convolute method of the MockConvoluted type
 func (mock *MockConvoluted) MOCK_Convolute(greeter any, s any, n any, stringToString any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Convolute"]
 	args := []reflect.Value{
@@ -306,6 +321,7 @@ func (mock *MockConvoluted) MOCK_Convolute(greeter any, s any, n any, stringToSt
 
 // MOCKany_Convolute is the mock stubber for the Convolute method of the MockConvoluted type
 func (mock *MockConvoluted) MOCKany_Convolute() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Convolute"]
 	args := []reflect.Value{
@@ -318,6 +334,7 @@ func (mock *MockConvoluted) MOCKany_Convolute() *handlers.BirbMocker {
 
 // Convolute provides a mock function for the type MockConvoluted
 func (mock *MockConvoluted) Convolute(greeter Greeter, s string, n int, stringToString map[string]string) (map[string]string, error) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Convolute"]
 	args := []any{
@@ -343,6 +360,7 @@ func (mock *MockConvoluted) Convolute(greeter Greeter, s string, n int, stringTo
 
 // CALLED_Convolute is the mock verifier for the Convolute method of the MockConvoluted type
 func (mock *MockConvoluted) CALLED_Convolute(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Convolute"]
 	args := []reflect.Value{}
@@ -387,6 +405,7 @@ func (mock *MockSomeBirb) BirbHandler() *handlers.Handler {
 
 // MOCK_Dive is the mock stubber for the Dive method of the MockSomeBirb type
 func (mock *MockSomeBirb) MOCK_Dive(context1 any, someBirb any) *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Dive"]
 	args := []reflect.Value{
@@ -400,6 +419,7 @@ func (mock *MockSomeBirb) MOCK_Dive(context1 any, someBirb any) *handlers.BirbMo
 
 // MOCKany_Dive is the mock stubber for the Dive method of the MockSomeBirb type
 func (mock *MockSomeBirb) MOCKany_Dive() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Dive"]
 	args := []reflect.Value{
@@ -412,6 +432,7 @@ func (mock *MockSomeBirb) MOCKany_Dive() *handlers.BirbMocker {
 
 // Dive provides a mock function for the type MockSomeBirb
 func (mock *MockSomeBirb) Dive(context1 context.Context, someBirb SomeBirb) error {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Dive"]
 	args := []any{
@@ -434,6 +455,7 @@ func (mock *MockSomeBirb) Dive(context1 context.Context, someBirb SomeBirb) erro
 
 // CALLED_Dive is the mock verifier for the Dive method of the MockSomeBirb type
 func (mock *MockSomeBirb) CALLED_Dive(givenArgs ...any) {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Dive"]
 	args := []reflect.Value{}
@@ -451,6 +473,7 @@ func (mock *MockSomeBirb) CALLED_Dive(givenArgs ...any) {
 
 // MOCK_Talk is the mock stubber for the Talk method of the MockSomeBirb type
 func (mock *MockSomeBirb) MOCK_Talk() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Talk"]
 	args := []reflect.Value{}
@@ -461,6 +484,7 @@ func (mock *MockSomeBirb) MOCK_Talk() *handlers.BirbMocker {
 
 // Talk provides a mock function for the type MockSomeBirb
 func (mock *MockSomeBirb) Talk() string {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Talk"]
 	args := []any{}
@@ -480,6 +504,7 @@ func (mock *MockSomeBirb) Talk() string {
 
 // CALLED_Talk is the mock verifier for the Talk method of the MockSomeBirb type
 func (mock *MockSomeBirb) CALLED_Talk() {
+	mock._handler.TestingT().Helper()
 	// START method args extraction
 	methodType := mock._methodsMap["Talk"]
 	args := []reflect.Value{}
