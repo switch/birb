@@ -19,6 +19,7 @@ type Handler struct {
 func (h *Handler) Mock(method reflect.Method, args []reflect.Value) *BirbMocker {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
+	h.testingT.Helper()
 
 	mh := h.getMethodHandler(method)
 	return mh.provisionBirbMocker(matchers.MungToMatchers(method, args...))
@@ -27,6 +28,7 @@ func (h *Handler) Mock(method reflect.Method, args []reflect.Value) *BirbMocker 
 func (h *Handler) Handle(method reflect.Method, args []any) []any {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
+	h.testingT.Helper()
 
 	if h.frozen {
 		h.TestingT().Fatalf("Mock: handler is frozen, cannot handle method %s", method.Name)
@@ -38,10 +40,12 @@ func (h *Handler) Handle(method reflect.Method, args []any) []any {
 }
 
 func (h *Handler) Verify(method reflect.Method, args []reflect.Value) {
+	h.testingT.Helper()
 	h.Verifier().VerifyCall(method, args)
 }
 
 func (h *Handler) Verifier() *Verifier {
+	h.testingT.Helper()
 	if h.verifier == nil {
 		h.verifier = NewVerifier(h)
 	}
@@ -59,6 +63,7 @@ func (h *Handler) getMethodHandler(method reflect.Method) *MethodHandler {
 func (h *Handler) Freeze() {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
+	h.testingT.Helper()
 
 	h.frozen = true
 }
@@ -66,12 +71,14 @@ func (h *Handler) Freeze() {
 func (h *Handler) Unfreeze() {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
+	h.testingT.Helper()
 
 	h.frozen = false
 }
 
 // NewHandler creates a new Handler instance
 func NewHandler(t types.TestingT, tp reflect.Type) *Handler {
+	t.Helper()
 	h := Handler{
 		mutex:    sync.Mutex{},
 		testingT: t,

@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"github.com/switch/birb/types"
 	"maps"
 	"reflect"
+
+	"github.com/switch/birb/types"
 )
 
 type MethodHandlerCollection struct {
@@ -16,6 +17,7 @@ func (mhc *MethodHandlerCollection) testingT() types.TestingT {
 }
 
 func (mhc *MethodHandlerCollection) GetMethodHandler(method string) *MethodHandler {
+	mhc.testingT().Helper()
 	mh, exists := mhc.methodHandlers[method]
 	if !exists {
 		mhc.testingT().Fatalf("Mock: method %s not registered in handler", method)
@@ -25,6 +27,7 @@ func (mhc *MethodHandlerCollection) GetMethodHandler(method string) *MethodHandl
 }
 
 func (mhc *MethodHandlerCollection) GetMethodHandlers() map[string]*MethodHandler {
+	mhc.testingT().Helper()
 	return maps.Clone(mhc.methodHandlers)
 }
 

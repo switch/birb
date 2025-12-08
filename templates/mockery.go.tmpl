@@ -96,6 +96,7 @@ func ({{ $structHandlerMethodVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiat
 
 // MOCK_{{ $method.Name }} is the mock stubber for the {{ $method.Name }} method of the {{ $mock.StructName }} type
 func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) MOCK_{{$method.Name}}({{ $methodArgsAny }}) *{{ $handlersPackage.Qualifier }}.BirbMocker {
+	{{ $structVar }}._handler.TestingT().Helper()
 	// START method args extraction
 	{{ $methodTypeVar }} := {{ $structVar }}._methodsMap["{{$method.Name}}"]
 	{{ $argsVar }} := []{{ $reflectPackage.Qualifier }}.Value {
@@ -117,6 +118,7 @@ func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) MOCK_
 {{- if $shouldHaveMockAny }}
 // MOCKany_{{ $method.Name }} is the mock stubber for the {{ $method.Name }} method of the {{ $mock.StructName }} type
 func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) MOCKany_{{$method.Name}}() *{{ $handlersPackage.Qualifier }}.BirbMocker {
+	{{ $structVar }}._handler.TestingT().Helper()
 	// START method args extraction
 	{{ $methodTypeVar }} := {{ $structVar }}._methodsMap["{{$method.Name}}"]
 	{{ $argsVar }} := []{{ $reflectPackage.Qualifier }}.Value {
@@ -130,6 +132,7 @@ func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) MOCKa
 
 // {{ $method.Name }} provides a mock function for the type {{ $mock.StructName }}
 func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) {{$method.Name}}({{$method.ArgList}}) {{$method.ReturnArgTypeList}} {
+	{{ $structVar }}._handler.TestingT().Helper()
 	// START method args extraction
 	{{ $methodTypeVar }} := {{ $structVar }}._methodsMap["{{$method.Name}}"]
 	{{ $argsVar }} := []any {
@@ -164,6 +167,7 @@ func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) {{$me
 // CALLED_{{ $method.Name }} is the mock verifier for the {{ $method.Name }} method of the {{ $mock.StructName }} type
 {{- if eq (len $method.Params) 0 }}
 func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) CALLED_{{$method.Name}}() {
+	{{ $structVar }}._handler.TestingT().Helper()
 	// START method args extraction
 	{{ $methodTypeVar }} := {{ $structVar }}._methodsMap["{{$method.Name}}"]
 	{{ $argsVar }} := []{{ $reflectPackage.Qualifier }}.Value {}
@@ -171,6 +175,7 @@ func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) CALLE
 
 {{- else }}
 func ({{ $structVar }} *{{$mock.StructName}}{{ $mock.TypeInstantiation }}) CALLED_{{$method.Name}}({{ $givenArgsVar }} ...any) {
+	{{ $structVar }}._handler.TestingT().Helper()
 	// START method args extraction
 	{{ $methodTypeVar }} := {{ $structVar }}._methodsMap["{{$method.Name}}"]
 	{{ $argsVar }} := []{{ $reflectPackage.Qualifier }}.Value {}

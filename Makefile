@@ -20,16 +20,13 @@ clean-buildDir:
 	@rm -rf build
 .PHONY: clean-buildDir
 
-test: test-gingko test-go
+test: test-go
 .PHONY: test
 
 test-go:
-	@go test -v ./...
+	@go test -v $$( go list ./... | grep -v /failing )
+	@internal/failing/validate.sh
 .PHONY: test-go
-
-test-gingko:
-	@ginkgo ./...
-.PHONY: test-gingko
 
 buildDir:
 	@mkdir -p build/coverage

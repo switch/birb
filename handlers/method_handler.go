@@ -23,6 +23,7 @@ func (mh *MethodHandler) testingT() types.TestingT {
 }
 
 func (mh *MethodHandler) provisionBirbMocker(args []matchers.Matcher) (sm *BirbMocker) {
+	mh.testingT().Helper()
 	sm = newBirbMocker(mh, args)
 	mh.BirbMockers = append(mh.BirbMockers, sm)
 
@@ -30,6 +31,7 @@ func (mh *MethodHandler) provisionBirbMocker(args []matchers.Matcher) (sm *BirbM
 }
 
 func (mh *MethodHandler) Handle(method reflect.Method, args []any) []any {
+	mh.testingT().Helper()
 	mh.Invoked(args)
 
 	for _, matcher := range mh.BirbMockers {
@@ -43,14 +45,17 @@ func (mh *MethodHandler) Handle(method reflect.Method, args []any) []any {
 }
 
 func (mh *MethodHandler) Invoked(args []any) {
+	mh.testingT().Helper()
 	mh.callInvocations.Calls = append(mh.callInvocations.Calls, newCall(mh.methodName, args))
 }
 
 func (mh *MethodHandler) Calls() int {
+	mh.testingT().Helper()
 	return len(mh.callInvocations.Calls)
 }
 
 func newMethodHandler(h *Handler, name string, m reflect.Type) *MethodHandler {
+	h.TestingT().Helper()
 	return &MethodHandler{
 		methodName:           m.Name(),
 		handler:              h,
