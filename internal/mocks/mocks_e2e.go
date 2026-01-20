@@ -56,6 +56,19 @@ func (mock *MockGreeter) MOCK_AllTheGreets(who ...any) *handlers.BirbMocker {
 	return mock._handler.Mock(methodType, args)
 }
 
+// MOCKfallback_AllTheGreets is the fallback stubber for the AllTheGreets method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockGreeter) MOCKfallback_AllTheGreets() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["AllTheGreets"]
+	args := []reflect.Value{}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
+}
+
 // AllTheGreets provides a mock function for the type MockGreeter
 func (mock *MockGreeter) AllTheGreets(who ...string) ([]string, error) {
 	mock._handler.TestingT().Helper()
@@ -106,6 +119,19 @@ func (mock *MockGreeter) MOCK_Greet() *handlers.BirbMocker {
 	// END method args extraction
 
 	return mock._handler.Mock(methodType, args)
+}
+
+// MOCKfallback_Greet is the fallback stubber for the Greet method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockGreeter) MOCKfallback_Greet() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["Greet"]
+	args := []reflect.Value{}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
 }
 
 // Greet provides a mock function for the type MockGreeter
@@ -167,6 +193,21 @@ func (mock *MockGreeter) MOCKany_GreetWithContext() *handlers.BirbMocker {
 	// END method args extraction
 
 	return mock._handler.Mock(methodType, args)
+}
+
+// MOCKfallback_GreetWithContext is the fallback stubber for the GreetWithContext method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockGreeter) MOCKfallback_GreetWithContext() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["GreetWithContext"]
+	args := []reflect.Value{
+		reflect.ValueOf(birb.WithAnyArgs()),
+	}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
 }
 
 // GreetWithContext provides a mock function for the type MockGreeter
@@ -233,6 +274,21 @@ func (mock *MockGreeter) MOCKany_PersonalGreet() *handlers.BirbMocker {
 	// END method args extraction
 
 	return mock._handler.Mock(methodType, args)
+}
+
+// MOCKfallback_PersonalGreet is the fallback stubber for the PersonalGreet method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockGreeter) MOCKfallback_PersonalGreet() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["PersonalGreet"]
+	args := []reflect.Value{
+		reflect.ValueOf(birb.WithAnyArgs()),
+	}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
 }
 
 // PersonalGreet provides a mock function for the type MockGreeter
@@ -330,6 +386,21 @@ func (mock *MockConvoluted) MOCKany_Convolute() *handlers.BirbMocker {
 	// END method args extraction
 
 	return mock._handler.Mock(methodType, args)
+}
+
+// MOCKfallback_Convolute is the fallback stubber for the Convolute method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockConvoluted) MOCKfallback_Convolute() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["Convolute"]
+	args := []reflect.Value{
+		reflect.ValueOf(birb.WithAnyArgs()),
+	}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
 }
 
 // Convolute provides a mock function for the type MockConvoluted
@@ -430,6 +501,21 @@ func (mock *MockSomeBirb) MOCKany_Dive() *handlers.BirbMocker {
 	return mock._handler.Mock(methodType, args)
 }
 
+// MOCKfallback_Dive is the fallback stubber for the Dive method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockSomeBirb) MOCKfallback_Dive() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["Dive"]
+	args := []reflect.Value{
+		reflect.ValueOf(birb.WithAnyArgs()),
+	}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
+}
+
 // Dive provides a mock function for the type MockSomeBirb
 func (mock *MockSomeBirb) Dive(context1 context.Context, someBirb SomeBirb) error {
 	mock._handler.TestingT().Helper()
@@ -480,6 +566,19 @@ func (mock *MockSomeBirb) MOCK_Talk() *handlers.BirbMocker {
 	// END method args extraction
 
 	return mock._handler.Mock(methodType, args)
+}
+
+// MOCKfallback_Talk is the fallback stubber for the Talk method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockSomeBirb) MOCKfallback_Talk() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["Talk"]
+	args := []reflect.Value{}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
 }
 
 // Talk provides a mock function for the type MockSomeBirb

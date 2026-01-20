@@ -14,6 +14,22 @@ type Greeter interface {
 ----
 
 == Verifying the number of calls
+
+=== Available Verifiers
+
+|===
+| Verifier | Description
+
+| `Times(n)` | Expects exactly n calls
+| `Once()` | Expects exactly 1 call (alias for `Times(1)`)
+| `Twice()` | Expects exactly 2 calls (alias for `Times(2)`)
+| `Never()` | Expects no calls (alias for `Times(0)`)
+| `AtLeast(n)` | Expects at least n calls
+| `AtMost(n)` | Expects at most n calls
+| `Between(min, max)` | Expects between min and max calls (inclusive)
+|===
+
+=== Examples
 [,go]
 ----
 mockGreeter := NewMockGreeter(t)
@@ -27,8 +43,9 @@ mockGreeter := NewMockGreeter(t)
 mockGreeter.PersonalGreet("John")
 mockGreeter.PersonalGreet("John")
 Verify(mockGreeter, Never()).CALLED_Greet() // verifies that Greet was never called
-Verify(mockGreeter, AtLeast(1)).CALLED_PersonalGreet("John") // verifies that Greet was called at least once
-Verify(mockGreeter, Twice()).CALLED_PersonalGreet("John") // verifies that Greet was called exactly twice with "John" argument
+Verify(mockGreeter, AtLeast(1)).CALLED_PersonalGreet("John") // verifies that PersonalGreet was called at least once
+Verify(mockGreeter, Twice()).CALLED_PersonalGreet("John") // verifies that PersonalGreet was called exactly twice with "John" argument
+Verify(mockGreeter, Between(1, 3)).CALLED_PersonalGreet("John") // verifies that PersonalGreet was called 1-3 times
 ----
 
 == Verifying there was no other interaction
@@ -40,4 +57,38 @@ mockGreeter := NewMockGreeter(t)
 mockGreeter.PersonalGreet("John")
 Verify(mockGreeter, Once()).CALLED_PersonalGreet("John") // verifies that PersonalGreet was called once with "John" argument
 VerifyNoOtherInteractions(mockGreeter) // verifies that there were no other interactions with the mock
+----
+
+== Verifying no calls were made
+Use `VerifyNeverCalled` to verify that no methods were ever called on the mock.
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+VerifyNeverCalled(mockGreeter) // verifies that no methods were called
+----
+
+== Freezing a mock
+`Freeze` prevents any further method calls on the mock. Any subsequent calls will cause the test to fail.
+This is useful for ensuring a mock is not used after a certain point in your test.
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+WhenCalling(mockGreeter.MOCK_Greet()).ThenReturn("Hello")
+mockGreeter.Greet() // works fine
+Freeze(mockGreeter)
+mockGreeter.Greet() // test fails - mock is frozen
+----
+
+== Resetting a mock
+`Reset` clears all stubs, call history, and verification state. This allows reusing a mock across multiple test cases.
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+WhenCalling(mockGreeter.MOCK_Greet()).ThenReturn("Hello")
+mockGreeter.Greet()
+
+Reset(mockGreeter) // clears all state
+
+// Mock is now fresh - previous stub and call history are gone
+mockGreeter.Greet() // returns "" (default value)
 ----

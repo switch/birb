@@ -7,6 +7,8 @@ import (
 	"github.com/switch/birb/types"
 )
 
+// MethodHandlerCollection manages all method handlers for a mock instance.
+// It creates handlers lazily based on the interface type's methods.
 type MethodHandlerCollection struct {
 	handler        *Handler
 	methodHandlers map[string]*MethodHandler
@@ -31,6 +33,7 @@ func (mhc *MethodHandlerCollection) GetMethodHandlers() map[string]*MethodHandle
 	return maps.Clone(mhc.methodHandlers)
 }
 
+// NewMethodHandlerCollection creates a collection for the given interface type.
 func NewMethodHandlerCollection(h *Handler, tp reflect.Type) *MethodHandlerCollection {
 	mhc := &MethodHandlerCollection{
 		handler:        h,

@@ -1,18 +1,25 @@
 package matchers
 
 import (
-	"github.com/onsi/gomega"
 	"reflect"
+
+	"github.com/onsi/gomega"
 )
 
+// Matcher is the interface for argument matching in mock method calls.
+// All matchers must implement this interface to be used with birb mocks.
 type Matcher interface {
 	Match(actual any) (bool, error)
 }
 
+// CreateMatcherFromValue wraps a value in a Gomega Equal matcher.
+// This is used internally to convert literal values to matchers.
 func CreateMatcherFromValue(val any) Matcher {
 	return gomega.Equal(val)
 }
 
+// MungToMatchers converts reflect.Value arguments to Matcher instances.
+// Values that are already Matchers are used directly; others are wrapped with Equal.
 func MungToMatchers(method reflect.Method, args ...reflect.Value) []Matcher {
 	fixedArgs := make([]Matcher, len(args))
 	for i, arg := range args {

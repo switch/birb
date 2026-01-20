@@ -39,3 +39,27 @@ mockGreeter.PersonalGreet("Hello, Tom") // returns "", nil
 ----
 
 Specific values are automatically converted to use the `Equal` matcher, so you can use them directly in the `MOCK_` functions.
+
+== Built-in Matchers
+
+=== Anything
+Matches any single argument value. Use when you don't care about a specific argument.
+[,go]
+----
+mockGreeter := NewMockGreeter(t)
+WhenCalling(mockGreeter.MOCK_PersonalGreet(Anything())).ThenReturn("Hello", nil)
+
+mockGreeter.PersonalGreet("John") // matches, returns "Hello", nil
+mockGreeter.PersonalGreet("Tom") // matches, returns "Hello", nil
+----
+
+=== WithAnyArgs
+Matches all remaining arguments. Use when you don't care about any of the arguments from this position onward.
+[,go]
+----
+mockConvoluted := NewMockConvoluted(t)
+// Match any call to Convolute regardless of arguments
+WhenCalling(mockConvoluted.MOCK_Convolute(WithAnyArgs())).ThenReturn(nil, nil)
+
+mockConvoluted.Convolute(greeter, "foo", 42, map[string]string{}) // matches
+----

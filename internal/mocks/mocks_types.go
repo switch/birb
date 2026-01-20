@@ -68,6 +68,21 @@ func (mock *MockTestingT) MOCKany_Cleanup() *handlers.BirbMocker {
 	return mock._handler.Mock(methodType, args)
 }
 
+// MOCKfallback_Cleanup is the fallback stubber for the Cleanup method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockTestingT) MOCKfallback_Cleanup() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["Cleanup"]
+	args := []reflect.Value{
+		reflect.ValueOf(birb.WithAnyArgs()),
+	}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
+}
+
 // Cleanup provides a mock function for the type MockTestingT
 func (mock *MockTestingT) Cleanup(fn func()) {
 	mock._handler.TestingT().Helper()
@@ -125,6 +140,21 @@ func (mock *MockTestingT) MOCKany_Fatalf() *handlers.BirbMocker {
 	return mock._handler.Mock(methodType, args1)
 }
 
+// MOCKfallback_Fatalf is the fallback stubber for the Fatalf method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockTestingT) MOCKfallback_Fatalf() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["Fatalf"]
+	args1 := []reflect.Value{
+		reflect.ValueOf(birb.WithAnyArgs()),
+	}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args1)
+}
+
 // Fatalf provides a mock function for the type MockTestingT
 func (mock *MockTestingT) Fatalf(format string, args ...any) {
 	mock._handler.TestingT().Helper()
@@ -165,6 +195,19 @@ func (mock *MockTestingT) MOCK_Helper() *handlers.BirbMocker {
 	// END method args extraction
 
 	return mock._handler.Mock(methodType, args)
+}
+
+// MOCKfallback_Helper is the fallback stubber for the Helper method.
+// Fallback stubs have the lowest priority and are only used when all other stubs are exhausted.
+// They are excluded from VerifyAllMatchersCalled() checks.
+func (mock *MockTestingT) MOCKfallback_Helper() *handlers.BirbMocker {
+	mock._handler.TestingT().Helper()
+	// START method args extraction
+	methodType := mock._methodsMap["Helper"]
+	args := []reflect.Value{}
+	// END method args extraction
+
+	return mock._handler.MockFallback(methodType, args)
 }
 
 // Helper provides a mock function for the type MockTestingT

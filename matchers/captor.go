@@ -2,8 +2,11 @@ package matchers
 
 import (
 	"slices"
+	"sync"
 )
 
+// Captor is a matcher that captures arguments for later inspection.
+// It is thread-safe and can be used in concurrent tests.
 type Captor interface {
 	Matcher
 	Capture(t any)
@@ -11,6 +14,7 @@ type Captor interface {
 }
 
 type captor struct {
+	mutex  sync.Mutex
 	values []any
 }
 
@@ -20,10 +24,14 @@ func (c *captor) Match(any) (success bool, err error) {
 }
 
 func (c *captor) Capture(t any) {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	c.values = append(c.values, t)
 }
 
 func (c *captor) GetValues() []any {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	return slices.Clone(c.values)
 }
 

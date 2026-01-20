@@ -83,7 +83,7 @@ var _ = Describe("ginkgo integration - Greeter", func() {
 
 	Describe("Greet", func() {
 		It("should verify a mock hasn't been touched", func() {
-			VerifyNoInteractions(mockGreeter)
+			VerifyNeverCalled(mockGreeter)
 			Freeze(mockGreeter)
 		})
 

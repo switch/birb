@@ -2,6 +2,8 @@
 package birb
 
 import (
+	"runtime"
+
 	"github.com/switch/birb/handlers"
 	"github.com/switch/birb/matchers"
 )
@@ -12,7 +14,12 @@ type Birb interface {
 }
 
 // WhenCalling is the API to use for setting up method stubs on a Birb mock.
+// It captures the source location for better debugging when stub errors occur.
 func WhenCalling(ans *handlers.BirbMocker) *handlers.BirbMocker {
+	// Capture where the stub was defined (skip 1 = WhenCalling, caller is user code)
+	if _, file, line, ok := runtime.Caller(1); ok {
+		ans.SetSourceLocation(file, line)
+	}
 	return ans
 }
 
@@ -32,9 +39,29 @@ func VerifyNoOtherInteractions[Mock Birb](mock Mock) {
 	mock.BirbHandler().Verifier().VerifyNoOtherInteractions()
 }
 
+// VerifyAllMatchersCalled checks that every non-fallback stub was invoked at least once.
+// This helps catch "dead" stubs that might indicate test setup errors or refactoring
+// that made stubs obsolete. Fallback stubs (created with MOCKfallback_) are excluded.
+//
+// Example:
+//
+//	WhenCalling(mock.MOCK_Foo(Equal("x"))).ThenReturn("result")
+//	// ... test code that should call mock.Foo("x") ...
+//	VerifyAllMatchersCalled(mock) // fails if MOCK_Foo was never called
+func VerifyAllMatchersCalled[Mock Birb](mock Mock) {
+	mock.BirbHandler().Verifier().VerifyAllMatchersCalled()
+}
+
 // Freeze verifies that no methods will be called on the Birb instance.
 func Freeze[Mock Birb](mock Mock) {
 	mock.BirbHandler().Freeze()
+}
+
+// Reset clears all stubs, call history, and verification state on the mock.
+// This allows reusing a mock across multiple test cases without creating a new instance.
+// After Reset(), the mock behaves as if it was freshly created.
+func Reset[Mock Birb](mock Mock) {
+	mock.BirbHandler().Reset()
 }
 
 // Times verify that a method is called exactly n times.
@@ -67,6 +94,12 @@ func AtMost(n int) *handlers.CallVerifier {
 	return handlers.AtMost(n)
 }
 
+// Between is a helper function to create verifiers that expect the method to be called
+// between min and max times (inclusive).
+func Between(min, max int) *handlers.CallVerifier {
+	return handlers.Between(min, max)
+}
+
 // Anything is a matcher that matches any SINGULAR value. This is useful when you don't care about the specific value passed to a method.
 func Anything() matchers.Matcher {
 	return &matchers.Anything{}
@@ -82,12 +115,14 @@ func Captor() matchers.Captor {
 	return matchers.NewCaptor()
 }
 
-// DeepCopyInto
+// DeepCopyInto creates a matcher that deep-copies toCopy into the argument.
+// The type T must implement the DeepCopyInto[T] interface (common in K8s types).
 func DeepCopyInto[T matchers.DeepCopyInto[T]](toCopy T) matchers.CopyInto {
 	return matchers.NewDeepCopyInto(toCopy)
 }
 
-// CopyIntoFunc
+// CopyIntoFunc creates a matcher using a custom copy function.
+// Use this when you need control over how values are copied into arguments.
 func CopyIntoFunc[T any](toCopy T, copyFunc matchers.CopyIntoFunc[T]) matchers.CopyInto {
 	return matchers.NewCopyIntoFunc(toCopy, copyFunc)
 }
