@@ -1,8 +1,10 @@
 :imagesdir: assets
 = Copy Into
 
-Copy Into is used to copy a value into the argument. This is used when an empty object is passed to a function to
-initialize the object
+Copy Into matchers are used to copy a value into an argument. This is commonly used when an empty object is passed to a function to be populated (e.g., Kubernetes client `Get` methods).
+
+== ShallowCopyInto
+Performs a shallow copy from a pointer. Suitable for simple structs without nested pointers or slices that need deep copying.
 
 [,go]
 ----
@@ -19,11 +21,55 @@ valToCopy := &getter{
 }
 
 mockGetter := NewMockGetter(t)
-WhenCalling(mockGetter.MOCK_Get(Aything(), ShallowCopyInto(valToCopy))).ThenReturn(nil)
+WhenCalling(mockGetter.MOCK_Get(Anything(), ShallowCopyInto(valToCopy))).ThenReturn(nil)
 
 obj := &getter{}
 
 mockGetter.Get(ctx, obj)
 
 Expect(obj.awesome).To(Equal("sauce"))
+----
+
+== DeepCopyInto
+For types that implement the `DeepCopyInto` interface (common in Kubernetes types). This ensures proper deep copying of nested structures.
+
+[,go]
+----
+// Type must implement: DeepCopyInto(out *T)
+type MyResource struct {
+  Name   string
+  Labels map[string]string
+}
+
+func (in *MyResource) DeepCopyInto(out *MyResource) {
+  *out = *in
+  if in.Labels != nil {
+    out.Labels = make(map[string]string)
+    for k, v := range in.Labels {
+      out.Labels[k] = v
+    }
+  }
+}
+
+valToCopy := &MyResource{
+  Name:   "test",
+  Labels: map[string]string{"app": "myapp"},
+}
+
+mockClient := NewMockClient(t)
+WhenCalling(mockClient.MOCK_Get(Anything(), Anything(), DeepCopyInto(valToCopy))).ThenReturn(nil)
+----
+
+== CopyIntoFunc
+Use a custom function when you need full control over the copy behavior.
+
+[,go]
+----
+valToCopy := &CustomType{Value: 42}
+
+mockGetter := NewMockGetter(t)
+WhenCalling(mockGetter.MOCK_Get(Anything(), CopyIntoFunc(valToCopy, func(src, dst *CustomType) {
+  dst.Value = src.Value
+  dst.Timestamp = time.Now() // custom logic
+}))).ThenReturn(nil)
 ----

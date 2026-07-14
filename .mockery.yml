@@ -15,13 +15,3 @@ packages:
       dir: internal/mocks
       filename: mocks_types.go
       pkgname: mocks
-  k8s.io/client-go/tools/record:
-    config:
-      template-data:
-        imports:
-          record: k8s.io/client-go/tools/record
-      dir: internal/mocks
-      filename: mocks_event_recorder.go
-      pkgname: mocks
-    interfaces:
-      EventRecorder:

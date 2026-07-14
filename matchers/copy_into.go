@@ -28,7 +28,10 @@ func (c *copyIntoFunc[T]) Match(actual any) (bool, error) {
 
 // CopyInto implements the CopyInto interface for copyIntoFunc types.
 func (c *copyIntoFunc[T]) CopyInto(destination any) error {
-	dst := destination.(T)
+	dst, ok := destination.(T)
+	if !ok {
+		return fmt.Errorf("destination type %T is not compatible with expected type %T", destination, c.source)
+	}
 	return c.copyFunc(dst, c.source)
 }
 

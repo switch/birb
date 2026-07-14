@@ -23,9 +23,14 @@ type call struct {
 	Args       []any
 }
 
-func (c *callCollection) matches(method reflect.Method, args []any) (calls int) {
+func (c *callCollection) matches(method reflect.Method, args []any) (calls int, matchErr error) {
 	for _, invocation := range c.Calls {
-		if invocation.matches(method, args) {
+		matched, err := invocation.matches(method, args)
+		if err != nil {
+			matchErr = err
+			return
+		}
+		if matched {
 			calls++
 		}
 	}
@@ -33,15 +38,14 @@ func (c *callCollection) matches(method reflect.Method, args []any) (calls int) 
 	return
 }
 
-func (c *call) matches(method reflect.Method, args []any) bool {
+func (c *call) matches(method reflect.Method, args []any) (bool, error) {
 	ignoreTheRestOfTheArguments := false
-	// if method.Type.IsVariadic() {
 	if len(args) > 0 {
 		_, ignoreTheRestOfTheArguments = args[len(args)-1].(*matchers.MatchTheRestOfTheArguments)
 	}
 
 	if !ignoreTheRestOfTheArguments && len(c.Args) != len(args) {
-		return false
+		return false, nil
 	}
 
 	for i, arg := range c.Args {
@@ -50,49 +54,75 @@ func (c *call) matches(method reflect.Method, args []any) bool {
 			m = len(args) - 1
 		}
 		if matcher, ok := args[m].(matchers.Matcher); ok {
-			if success, _ := matcher.Match(arg); !success {
-				return false
+			success, err := matcher.Match(arg)
+			if err != nil {
+				return false, fmt.Errorf("argument %d: matcher error: %w", i, err)
 			}
-		} else if success, _ := gomega.Equal(args[m]).Match(arg); !success {
-			return false
+			if !success {
+				return false, nil
+			}
+		} else {
+			success, err := gomega.Equal(args[m]).Match(arg)
+			if err != nil {
+				return false, fmt.Errorf("argument %d: equality check error: %w", i, err)
+			}
+			if !success {
+				return false, nil
+			}
 		}
 	}
-	return true
+	return true, nil
 }
 
+// Times creates a verifier that expects exactly n method calls.
 func Times(n int) *CallVerifier {
 	return MethodVerifierFromCallData(func(data *callData) error {
 		if data.MethodCalls != n {
-			return fmt.Errorf("expected num method calls: %d, got : %d", n, data.MethodCalls)
+			return fmt.Errorf("expected %d call(s), got %d", n, data.MethodCalls)
 		}
 		return nil
 	})
 }
 
+// AtLeast creates a verifier that expects at least n method calls.
 func AtLeast(n int) *CallVerifier {
 	return MethodVerifierFromCallData(func(data *callData) error {
-		if n >= data.MethodCalls {
-			return fmt.Errorf("expected at least num method calls: %d, got : %d", n, data.MethodCalls)
+		if data.MethodCalls < n {
+			return fmt.Errorf("expected at least %d call(s), got %d", n, data.MethodCalls)
 		}
 		return nil
 	})
 }
 
+// AtMost creates a verifier that expects at most n method calls.
 func AtMost(n int) *CallVerifier {
 	return MethodVerifierFromCallData(func(data *callData) error {
-		if n <= data.MethodCalls {
-			return fmt.Errorf("expected at most num method calls: %d, got : %d", n, data.MethodCalls)
+		if data.MethodCalls > n {
+			return fmt.Errorf("expected at most %d call(s), got %d", n, data.MethodCalls)
 		}
 		return nil
 	})
 }
 
+// Between creates a verifier that expects between min and max method calls (inclusive).
+func Between(min, max int) *CallVerifier {
+	return MethodVerifierFromCallData(func(data *callData) error {
+		if data.MethodCalls < min || data.MethodCalls > max {
+			return fmt.Errorf("expected between %d and %d call(s), got %d", min, max, data.MethodCalls)
+		}
+		return nil
+	})
+}
+
+// MethodVerifierFromCallData creates a custom CallVerifier from a validation function.
 func MethodVerifierFromCallData(f func(data *callData) error) *CallVerifier {
 	return &CallVerifier{
 		f: f,
 	}
 }
 
+// CallVerifier validates method call counts during verification.
+// Use Times, AtLeast, AtMost, or MethodVerifierFromCallData to create one.
 type CallVerifier struct {
 	f func(data *callData) error
 }

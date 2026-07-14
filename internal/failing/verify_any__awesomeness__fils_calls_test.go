@@ -1,3 +1,5 @@
+//go:build failing
+
 package failing
 
 import (
